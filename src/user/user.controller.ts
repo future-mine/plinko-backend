@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { TokenModel } from './model/token.model';
 import { CleanDtoPipe } from 'src/pipes/clean-dto.pipe';
@@ -34,6 +41,13 @@ export class UserController {
   }
 
   @Auth()
+  @Get('me')
+  async getById(@GetUser('id') userId: number): Promise<UserEntity> {
+    return this.userService.getById(userId);
+  }
+
+  @Auth()
+  @HttpCode(HttpStatus.OK)
   @Post('bet')
   async bet(
     @Body(CleanDtoPipe) dto: BetDto,
@@ -42,6 +56,7 @@ export class UserController {
     return this.userService.executeBet(dto, userId);
   }
   @Auth()
+  @HttpCode(HttpStatus.OK)
   @Post('deposit')
   async deposit(
     @Body(CleanDtoPipe) dto: DepositDto,

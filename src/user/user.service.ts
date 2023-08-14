@@ -12,7 +12,7 @@ import { LoginUserDto } from './dto/loginUser.dto';
 import { TokenModel } from './model/token.model';
 import { RegisterUserDto } from './dto/registerUser.dto';
 import { BetDto } from './dto/bet.dto';
-import { betResult } from 'src/utils/bet';
+import { simulatePlinkoDrop } from 'src/utils/bet';
 import { BetResultModel } from './model/betResult.model';
 import { DepositDto } from './dto/deposit.dto';
 
@@ -56,6 +56,10 @@ export class UserService {
     return token;
   }
 
+  public async getById(userId): Promise<UserEntity> {
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
+    return user;
+  }
   public async register(dto: RegisterUserDto): Promise<UserEntity> {
     let user = new UserEntity();
     user.username = dto.username;
@@ -73,12 +77,14 @@ export class UserService {
     if (user.balance < dto.betSize) {
       throw new ForbiddenException(ConstantMessages.InsufficientBalance);
     }
-    const result = betResult();
-    user.balance += (result - 1) * dto.betSize;
+    const [result, resultIndex] = simulatePlinkoDrop();
+    const profit = (result - 1) * dto.betSize;
+    user.balance += profit;
     user = await user.save();
     return {
       result,
-      balance: user.balance,
+      resultIndex,
+      profit,
     };
   }
 

@@ -4,6 +4,7 @@ import {
   Column,
   AfterLoad,
   BeforeUpdate,
+  BeforeInsert,
   AfterUpdate,
   AfterInsert,
 } from 'typeorm';
@@ -25,17 +26,13 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', nullable: false, unique: true })
   public email: string;
 
-  @Column({ type: 'varchar', nullable: true, select: false })
+  @Column({ type: 'varchar', nullable: true })
   public password: string;
 
   @ApiProperty()
-  @Column({ type: 'decimal', nullable: false, default: 0 })
+  @Column({ type: 'float8', nullable: false, default: 0 })
   public balance: number;
 
-  @AfterLoad()
-  handleAfterLoad() {
-    this.password = undefined;
-  }
   @AfterInsert()
   handleAfterInsert() {
     this.password = undefined;
@@ -44,7 +41,7 @@ export class UserEntity extends BaseEntity {
   handleAfterSave() {
     this.password = undefined;
   }
-  @BeforeUpdate()
+  @BeforeInsert()
   async setPassword(password: string) {
     const pass = password || this.password;
     if (pass) {

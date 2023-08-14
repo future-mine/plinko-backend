@@ -18,10 +18,10 @@ async function bootstrap() {
   );
   if (application.env == 'development') {
     const config = new DocumentBuilder()
-      .setTitle('Waivlength backend')
-      .setDescription('The waivlength API description')
+      .setTitle('Plinko backend')
+      .setDescription('The Plinko API description')
       .setVersion('1.0')
-      .addTag('waivlength')
+      .addTag('Plinko')
       .addBearerAuth({
         type: 'http',
         scheme: 'bearer',

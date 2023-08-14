@@ -6,15 +6,15 @@ export const application = {
   prefix: 'api/v1',
 };
 export const database = {
-  host: process.env.RDS_HOSTNAME,
-  port: Number(process.env.RDS_PORT),
-  username: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
-  database: process.env.RDS_DB_NAME,
+  host: process.env.POSTGRES_HOSTNAME,
+  port: Number(process.env.POSTGRES_PORT),
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
 };
 
 export const security = {
   secret: process.env.JWT_SECRET,
   expiresIn: `${process.env.JWT_EXPIRATION_TIME ?? 600}s`,
-  salt: process.env.SALT,
+  salt: parseInt(process.env.SALT || '10'),
 };
