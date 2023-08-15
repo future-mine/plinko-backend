@@ -13,7 +13,7 @@ function generateBinomialRandom(p, n) {
 
 export const simulatePlinkoDrop = (): number[] => {
   const probabilityOfSuccess = 0.5; // Probability of success
-  const numTrials = 1000; // Number of trials
+  const numTrials = 20; // Number of trials
 
   const randomValue = generateBinomialRandom(probabilityOfSuccess, numTrials);
   const index = Math.floor(randomValue * outcomes.length);

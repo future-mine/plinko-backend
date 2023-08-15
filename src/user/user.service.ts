@@ -85,6 +85,7 @@ export class UserService {
       result,
       resultIndex,
       profit,
+      balance: user.balance,
     };
   }
 

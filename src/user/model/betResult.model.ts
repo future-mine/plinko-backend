@@ -7,4 +7,6 @@ export class BetResultModel {
   profit: number;
   @ApiProperty()
   resultIndex: number;
+  @ApiProperty()
+  balance: number;
 }
